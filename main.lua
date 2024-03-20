@@ -25,8 +25,8 @@ Game = {
 }
 
 -- Import scenes
-require 'editor'
-local mainmenu = require 'mainmenu'
+require 'scenes.editor'
+local mainmenu = require 'scenes.mainmenu'
 
 -- love.load
 -- Called when game starts
