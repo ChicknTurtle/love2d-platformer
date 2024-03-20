@@ -1,5 +1,5 @@
 
-A basic platformer being made with (LÖVE)[https://love2d.org/].
+A basic platformer being made with [LÖVE](https://love2d.org/).
 
 No name yet, because it has barely been started.
 
