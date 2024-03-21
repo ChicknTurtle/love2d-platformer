@@ -1,5 +1,27 @@
 
--- Editor
+-- Define editor
+Editor = {
+    cameraX = 0,
+    cameraY = 0,
+    zoom = 1,
+    world = {
+        {x=0,y=-1,t='s'},
+        {x=0,y=0,t='g'},
+        {x=1,y=0,t='g'},
+        {x=1,y=1,t='g'},
+    }
+}
+
+local buttons = {
+    home = {
+        extra = 3,
+        x = 7.5,
+        y = 7.5,
+        width = 35,
+        height = 35,
+        hovering = false,
+    }
+}
 
 -- Define functions
 
@@ -27,9 +49,7 @@ function checkSurroundingTiles(x, y)
         {dx=1,dy=1,id=7},
     }
 
-    -- Initialize an array to store the presence of ground tiles in each direction
     local tiles = {}
-
     for _, dir in ipairs(dirs) do
         for _, tile in ipairs(Editor.world) do
             if x+dir.dx==tile.x and y+dir.dy==tile.y then
@@ -38,19 +58,6 @@ function checkSurroundingTiles(x, y)
         end
     end
 end
-
--- Define editor
-Editor = {
-    cameraX = 0,
-    cameraY = 0,
-    zoom = 1,
-    world = {
-        {x=0,y=-1,t='s'},
-        {x=0,y=0,t='g'},
-        {x=1,y=0,t='g'},
-        {x=1,y=1,t='g'},
-    }
-}
 
 -- On load
 function Editor.load()
@@ -65,11 +72,19 @@ end
 
 -- Tick every frame
 function Editor.tick(dt)
+    -- Reset cursor
+    mouse.setCursor()
 
-    -- Back button
-    if keyDown('escape') then
-        Editor.quit()
-        Game.scene = 'main'
+    local mx, my = mouse.getPosition()
+
+    -- Home button
+    local button = buttons.home
+    if t.clamp(mx, button.x-button.extra, button.x+button.width+button.extra) == mx and t.clamp(my, button.y-button.extra, button.y+button.height+button.extra) == my then
+        button.hovering = true
+        -- Set cursor if hovering
+        mouse.setCursor(Game.cursors.hand)
+    else
+        button.hovering = false
     end
 
 end
@@ -94,9 +109,12 @@ function Editor.draw()
     gfx.setColor(0.2,0.2,0.2)
     gfx.rectangle('fill', 0, 50, Game.width, 5)
 
-    -- Back button
-    gfx.setColor(0.3,0.3,0.3)
-    gfx.rectangle('fill', 5, 5, 40, 40, 5)
+    -- Home button
+    local button = buttons.home
+    if buttons.home.hovering then
+        gfx.setColor(0.3,0.3,0.3)
+        gfx.rectangle('fill', button.x, button.y, button.width, button.height, 10)
+    end
 
     -- Print debug
     gfx.setColor(1,1,1)
@@ -109,6 +127,7 @@ function Editor.keypressed(key)
     if key == "escape" then
         Editor.quit()
         Game.scene = 'main'
+        mainmenu.load()
     end
 end
 

@@ -8,6 +8,7 @@ mouse = love.mouse
 window = love.window
 keyboard = love.keyboard
 timer = love.timer
+system = love.system
 
 keyDown = keyboard.isDown
 
@@ -26,13 +27,13 @@ Game = {
 
 -- Import scenes
 require 'scenes.editor'
-local mainmenu = require 'scenes.mainmenu'
+require 'scenes.mainmenu'
 
 -- love.load
 -- Called when game starts
 function love.load()
     gfx.setDefaultFilter("linear")
-    love.window.requestAttention()
+    os = system.getOS()
 end
 
 -- love.update

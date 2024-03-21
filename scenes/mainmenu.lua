@@ -1,5 +1,5 @@
 
-local mainmenu = {}
+mainmenu = {}
 
 local buttons = {
     WIDTH = 225,
@@ -67,7 +67,11 @@ end
 -- On load
 function mainmenu.load()
     -- Reset width of all buttons
-    --unfinish
+    for name, button in pairs(buttons) do
+        if type(button) == 'table' then
+            button.width = buttons.WIDTH
+        end
+    end
 end
 
 -- Tick every frame
@@ -77,7 +81,10 @@ function mainmenu.tick(dt)
     -- Tick buttons
     for name, button in pairs(buttons) do
         if type(button) == 'table' then
-            tickButton(button, dt)
+            -- Don't tick quit button on web
+            if os ~= "Web" or name ~= "quit" then
+                tickButton(button, dt)
+            end
         end
     end
 end
@@ -89,7 +96,10 @@ function mainmenu.draw()
     -- Draw buttons
     for name, button in pairs(buttons) do
         if type(button) == 'table' then
-            drawButton(button)
+            -- Don't draw quit button on web
+            if os ~= "Web" or name ~= "quit" then
+                drawButton(button)
+            end
         end
     end
 end
@@ -117,5 +127,3 @@ function mainmenu.click(x, y, click, istouch)
         end
     end
 end
-
-return mainmenu
