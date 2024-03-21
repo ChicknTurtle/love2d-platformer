@@ -7,7 +7,7 @@ Game = {
 
 -- Initial window config
 function love.conf(game)
-    Game.identity = Game.NAME
+    game.identity = Game.NAME
     game.window.title = Game.NAME.." - Loading..."
     game.window.icon = 'assets/icon.png'
 

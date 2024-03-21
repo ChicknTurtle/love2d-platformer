@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Averia%20Libre' rel='stylesheet'>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, minimum-scale=1, maximum-scale=1">
+    <base href="webgame/">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+        }
+        #loadingScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 2em;
+            font-family: 'Averia Libre';
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+    <div id="loadingScreen">
+        Loading...
+    </div>
+    <canvas id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+
+    <script type='text/javascript'>
+        function goFullScreen(){
+            var canvas = document.getElementById("canvas");
+            if(canvas.requestFullScreen)
+                canvas.requestFullScreen();
+            else if(canvas.webkitRequestFullScreen)
+                canvas.webkitRequestFullScreen();
+            else if(canvas.mozRequestFullScreen)
+                canvas.mozRequestFullScreen();
+        }
+        function FullScreenHook(){
+            var canvas = document.getElementById("canvas");
+            canvas.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            canvas.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+        }
+
+        window.onload = function () { 
+            window.focus(); 
+            FullScreenHook();
+        };
+        window.onclick = function () { window.focus(); };
+
+        window.addEventListener("keydown", function(e) {
+            // space and arrow keys
+            if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+                e.preventDefault();
+            }
+        }, false);
+
+        var Module = {
+            arguments: ["./game.love"],
+            INITIAL_MEMORY: 20000000,
+            printErr: console.error.bind(console),
+            canvas: (function() {
+                var canvas = document.getElementById('canvas');
+
+                canvas.addEventListener("webglcontextlost", function(e) { alert('WebGL context lost. You will need to reload the page.'); e.preventDefault(); }, false);
+
+                return canvas;
+            })(),
+            setStatus: function(text) {
+                if (text) {
+                    document.getElementById('loadingScreen').innerText = text;
+                } else if (Module.remainingDependencies === 0) {
+                    document.getElementById('loadingScreen').style.display = 'none';
+                    document.getElementById('canvas').style.visibility = 'visible';
+                }
+            },
+            totalDependencies: 0,
+            remainingDependencies: 0,
+            monitorRunDependencies: function(left) {
+                this.remainingDependencies = left;
+                this.totalDependencies = Math.max(this.totalDependencies, left);
+                Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies-left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
+            }
+        };
+        Module.setStatus('Downloading...');
+
+        var applicationLoad = function(e) {
+            Love(Module);
+        }
+        
+        window.addEventListener('resize', FullScreenHook);
+
+    </script>
+    <script type="text/javascript" src="game.js"></script>
+    <script async type="text/javascript" src="love.js" onload="applicationLoad(this)"></script>
+</body>
+</html>
