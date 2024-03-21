@@ -5,7 +5,7 @@
 # by ChicknTurtle
 
 # Make sure makelove is installed
-if python -c "import makelove" &> /dev/null; then
+if pip freeze | grep -q "makelove"; then
     echo "makelove is already installed."
 else
     echo "makelove is not installed. Installing..."
@@ -20,12 +20,18 @@ fi
 
 # package the game
 echo "Packaging game..."
-makelove lovejs --config webgame/makelove.toml &> /dev/null
+makelove lovejs --config webgame/makelove.toml
 
 # unzip the game
 echo "Unzipping..."
-unzip -o webgame/lovejs/webgame-lovejs.zip -d webgame &> /dev/null
+unzip -o webgame/lovejs/webgame-lovejs.zip -d webgame
+
+# stop process if it is arleady running
+if lsof -ti :8000; then
+    echo "Stopping old process..."
+    kill $(lsof -ti :8000)
+fi
 
 # start the web server
 echo "Starting web server..."
-python -m http.server --directory webgame &> /dev/null
+python -m http.server --directory webgame
