@@ -16,7 +16,7 @@ Game = {
     NAME = Game.NAME,
     width = Game.width,
     height = Game.height,
-    scene = "main",
+    scene = "mainmenu",
     fonts = {
         main = gfx.newFont('assets/fonts/OdibeeSans-Regular.ttf', 20)
     },
@@ -47,7 +47,7 @@ function love.update(dt)
         dt = 1/30
     end
 
-    if Game.scene == 'main' then
+    if Game.scene == 'mainmenu' then
         -- Update window title
         window.setTitle(Game.NAME.." - Main Menu")
         -- Tick main menu
@@ -57,7 +57,7 @@ function love.update(dt)
         -- Update window title
         window.setTitle(Game.NAME.." - Level Editor")
         -- Tick editor
-        Editor.tick(dt)
+        editor.tick(dt)
 
     else
         window.setTitle(Game.NAME)
@@ -72,12 +72,12 @@ end
 -- Called every frame for drawing visuals
 function love.draw()
     gfx.push()
-    if Game.scene == 'main' then
+    if Game.scene == 'mainmenu' then
         -- Draw main menu
         mainmenu.draw()
     elseif Game.scene == 'editor' then
         -- Draw editor
-        Editor.draw()
+        editor.draw()
     end
     gfx.pop()
 end
@@ -85,8 +85,10 @@ end
 -- love.mousepressed
 -- Called on mouse click
 function love.mousepressed(x, y, click, istouch)
-    if Game.scene == 'main' then
+    if Game.scene == 'mainmenu' then
         mainmenu.click(x, y, click, istouch)
+    elseif Game.scene == 'editor' then
+        editor.click(x, y, click, istouch)
     end
 end
 
@@ -94,6 +96,6 @@ end
 -- Called on key press
 function love.keypressed(key)
     if Game.scene == 'editor' then
-        Editor.keypressed(key)
+        editor.keypressed(key)
     end
 end

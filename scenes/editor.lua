@@ -1,6 +1,6 @@
 
 -- Define editor
-Editor = {
+editor = {
     cameraX = 0,
     cameraY = 0,
     zoom = 1,
@@ -15,10 +15,10 @@ Editor = {
 local buttons = {
     home = {
         extra = 3,
-        x = 7.5,
-        y = 7.5,
-        width = 35,
-        height = 35,
+        x = 5,
+        y = 5,
+        width = 40,
+        height = 40,
         hovering = false,
     }
 }
@@ -28,10 +28,10 @@ local buttons = {
 -- Draw grid
 local function drawGrid(size, thickness)
     for x = -size, gfx.getWidth()+size, size do
-        gfx.rectangle('fill', x-Editor.cameraX%size, 0, thickness, Game.height)
+        gfx.rectangle('fill', x-editor.cameraX%size, 0, thickness, Game.height)
     end
     for y = -size, gfx.getHeight()+size, size do
-        gfx.rectangle('fill', 0, y-Editor.cameraY%size, Game.width, thickness)
+        gfx.rectangle('fill', 0, y-editor.cameraY%size, Game.width, thickness)
     end
 end
 
@@ -51,7 +51,7 @@ function checkSurroundingTiles(x, y)
 
     local tiles = {}
     for _, dir in ipairs(dirs) do
-        for _, tile in ipairs(Editor.world) do
+        for _, tile in ipairs(editor.world) do
             if x+dir.dx==tile.x and y+dir.dy==tile.y then
                 tiles.append(dir.id)
             end
@@ -60,18 +60,19 @@ function checkSurroundingTiles(x, y)
 end
 
 -- On load
-function Editor.load()
+function editor.load()
+    Game.scene = 'editor'
     -- Reset cursor
     mouse.setCursor()
 end
 
 -- On quit
-function Editor.quit()
+function editor.quit()
 
 end
 
 -- Tick every frame
-function Editor.tick(dt)
+function editor.tick(dt)
     -- Reset cursor
     mouse.setCursor()
 
@@ -90,7 +91,7 @@ function Editor.tick(dt)
 end
 
 -- Draw editor
-function Editor.draw()
+function editor.draw()
 
     -- Set background color
     gfx.setBackgroundColor(0.15,0.15,0.175)
@@ -116,19 +117,26 @@ function Editor.draw()
         gfx.rectangle('fill', button.x, button.y, button.width, button.height, 10)
     end
 
-    -- Print debug
+    -- Print fps
     gfx.setColor(1,1,1)
     gfx.print(love.timer.getFPS()..' FPS', 4, 55+2)
 
 end
 
 -- On key press
-function Editor.keypressed(key)
+function editor.keypressed(key)
     if key == "escape" then
-        Editor.quit()
-        Game.scene = 'main'
+        editor.quit()
         mainmenu.load()
     end
 end
 
-return Editor
+-- On click
+function editor.click(x, y, click, istouch)
+    if click == 1 then
+        if buttons.home.hovering then
+            mainmenu.load()
+        end
+    end
+end
+

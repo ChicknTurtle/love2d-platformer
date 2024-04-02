@@ -66,6 +66,7 @@ end
 
 -- On load
 function mainmenu.load()
+    Game.scene = 'mainmenu'
     -- Reset width of all buttons
     for name, button in pairs(buttons) do
         if type(button) == 'table' then
@@ -113,9 +114,7 @@ function mainmenu.click(x, y, click, istouch)
                     -- Editor
                     if name == 'editor' then
                         -- Switch to editor
-                        Game.scene = 'editor'
-                        -- Setup editor
-                        Editor.load()
+                        editor.load()
                     end
                     -- Quit
                     if name == 'quit' then

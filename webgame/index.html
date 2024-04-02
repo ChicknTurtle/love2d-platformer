@@ -85,7 +85,8 @@
             })(),
             setStatus: function(text) {
                 if (text) {
-                    document.getElementById('loadingScreen').innerText = text;
+                    console.log(text);
+                    document.getElementById('loadingScreen').innerText = "Loading...";
                 } else if (Module.remainingDependencies === 0) {
                     document.getElementById('loadingScreen').style.display = 'none';
                     document.getElementById('canvas').style.visibility = 'visible';
@@ -96,10 +97,8 @@
             monitorRunDependencies: function(left) {
                 this.remainingDependencies = left;
                 this.totalDependencies = Math.max(this.totalDependencies, left);
-                Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies-left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
             }
         };
-        Module.setStatus('Downloading...');
 
         var applicationLoad = function(e) {
             Love(Module);
