@@ -29,7 +29,7 @@ unzip -o webgame/lovejs/webgame-lovejs.zip -d webgame
 # stop process if it is arleady running
 if lsof -ti :8000; then
     echo "Stopping old process..."
-    kill $(lsof -ti :8000)
+    kill -9 $(lsof -ti :8000)
 fi
 
 # start the web server
