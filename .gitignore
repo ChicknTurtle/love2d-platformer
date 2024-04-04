@@ -1,7 +1,9 @@
 
-webgame/love
-webgame/lovejs
-webgame/webgame
+.vscode
+
+webgame/*
+!webgame/index.html
+!webgame/makelove.toml
 
 # Compiled Lua sources
 luac.out
