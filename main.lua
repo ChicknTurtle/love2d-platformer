@@ -3,6 +3,8 @@ t = require 'lib.turtleutils'
 inspect = require 'lib.inspect'
 binser = require 'lib.binser'
 
+log = t.log
+
 gfx = love.graphics
 mouse = love.mouse
 window = love.window
@@ -18,12 +20,23 @@ Game = {
     height = Game.height,
     scene = "mainmenu",
     fonts = {
-        main = gfx.newFont('assets/fonts/OdibeeSans-Regular.ttf', 20)
+        main = gfx.newFont('assets/fonts/OdibeeSans-Regular.ttf', 20),
     },
     cursors = {
-        hand = love.mouse.getSystemCursor("hand")
+        hand = mouse.getSystemCursor("hand"),
+    },
+    tilesets = {
+        test = {
+            size = 4,
+            image = nil,
+        },
     },
 }
+
+-- Save tileset images with 'nearest' filter
+gfx.setDefaultFilter('nearest')
+Game.tilesets.test.image = gfx.newImage("assets/tilesets/test.png")
+gfx.setDefaultFilter('linear')
 
 -- Import scenes
 require 'scenes.editor'
