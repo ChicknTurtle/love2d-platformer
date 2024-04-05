@@ -11,6 +11,7 @@ window = love.window
 keyboard = love.keyboard
 timer = love.timer
 system = love.system
+audio = love.audio
 
 keyDown = keyboard.isDown
 
@@ -21,6 +22,12 @@ Game = {
     scene = "mainmenu",
     fonts = {
         main = gfx.newFont('assets/fonts/OdibeeSans-Regular.ttf', 20),
+    },
+    sounds = {
+        --click = audio.newSource("assets/sounds/ui/click.wav", "static"),
+        --click2 = audio.newSource("assets/sounds/ui/click2.wav", "static"),
+        hover = audio.newSource("assets/sounds/ui/hover.wav", "static"),
+        --deny = audio.newSource("assets/sounds/ui/deny.wav", "static"),
     },
     cursors = {
         hand = mouse.getSystemCursor("hand"),

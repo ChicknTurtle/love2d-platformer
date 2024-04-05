@@ -12,7 +12,7 @@ editor = {
         {x=1,y=1,t='g'},
         {x=3,y=1,t='g'},
     },
-    SCROLLSPEED = 500,
+    SCROLLSPEED = 300,
     ZOOMSPEED = 50,
 }
 
@@ -193,16 +193,16 @@ function editor.tick(dt)
         cameraSpeed = editor.SCROLLSPEED*2.5
     end
     cameraSpeed = cameraSpeed * (editor.gridsize/35+1)
-    if keyDown('left') then
+    if keyDown('left') or keyDown('a') then
         editor.cameraX = editor.cameraX - cameraSpeed*dt
     end
-    if keyDown('right') then
+    if keyDown('right') or keyDown('d') then
         editor.cameraX = editor.cameraX + cameraSpeed*dt
     end
-    if keyDown('up') then
+    if keyDown('up') or keyDown('w') then
         editor.cameraY = editor.cameraY - cameraSpeed*dt
     end
-    if keyDown('down') then
+    if keyDown('down') or keyDown('s') then
         editor.cameraY = editor.cameraY + cameraSpeed*dt
     end
 

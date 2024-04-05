@@ -42,6 +42,10 @@ local function tickButton(button, dt)
     local mx, my = mouse.getPosition()
     local y = Game.height/2 + button.Y
     if t.clamp(mx, nil, button.width+buttons.EXTRA) == mx and t.clamp(my, y-buttons.EXTRA, y+buttons.HEIGHT+buttons.EXTRA) == my then
+        -- If just started hovering
+        if not button.hovering then
+            Game.sounds.hover:play()
+        end
         button.hovering = true
         button.width = button.width + ((t.interpolate(button.width, buttons.HOVER_WIDTH, 0.5) - button.width) * dt * 10)
         -- Set cursor if hovering
