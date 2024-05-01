@@ -13,7 +13,7 @@ editor = {
         {x=3,y=1,t='g'},
     },
     SCROLLSPEED = 300,
-    ZOOMSPEED = 50,
+    ZOOMSPEED = 20,
 }
 
 local buttons = {
@@ -156,6 +156,7 @@ end
 -- On load
 function editor.load()
     Game.scene = 'editor'
+    log("Scene: "..Game.scene)
     -- Reset cursor
     mouse.setCursor()
     -- Set editor defaults
@@ -209,7 +210,7 @@ function editor.tick(dt)
     -- Zoom
     local zoomSpeed = editor.ZOOMSPEED
     if keyDown("lshift") or keyDown("rshift") then
-        zoomSpeed = zoomSpeed*2
+        zoomSpeed = zoomSpeed*2.5
     end
     if keyboard.isDown('i') then
         editor.gridsize = editor.gridsize+((editor.gridsize+zoomSpeed)*dt)

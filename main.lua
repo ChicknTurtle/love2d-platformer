@@ -24,10 +24,10 @@ Game = {
         main = gfx.newFont('assets/fonts/OdibeeSans-Regular.ttf', 20),
     },
     sounds = {
-        --click = audio.newSource("assets/sounds/ui/click.wav", "static"),
-        --click2 = audio.newSource("assets/sounds/ui/click2.wav", "static"),
+        click = audio.newSource("assets/sounds/ui/click.wav", "static"),
+        click2 = audio.newSource("assets/sounds/ui/click2.wav", "static"),
         hover = audio.newSource("assets/sounds/ui/hover.wav", "static"),
-        --deny = audio.newSource("assets/sounds/ui/deny.wav", "static"),
+        deny = audio.newSource("assets/sounds/ui/deny.wav", "static"),
     },
     cursors = {
         hand = mouse.getSystemCursor("hand"),
@@ -54,11 +54,18 @@ require 'scenes.mainmenu'
 function love.load()
     gfx.setDefaultFilter("linear")
     os = system.getOS()
+
+    log("Started!")
 end
 
 -- love.update
 -- Called every frame
 function love.update(dt)
+    -- Pause if not focused
+    if not window.hasFocus() then
+        return
+    end
+
     dt = timer.getAverageDelta()
 
     -- Limit fps to 30
